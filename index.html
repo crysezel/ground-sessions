@@ -174,7 +174,7 @@
   <span class="eqmini" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   <span id="soundLabel">Play music</span>
 </button>
-<audio id="track" src="The_Kind_That_Frees.mp3" loop preload="none"></audio>
+<audio id="track" src="The_Kind_That_Frees.mp3" loop preload="auto"></audio>
 
 <main class="deck" id="deck">
 
@@ -509,6 +509,12 @@
       else{ track.pause(); sbtn.classList.remove('playing'); sbtn.setAttribute('aria-pressed','false'); slabel.textContent='Play music'; }
     }catch(e){ slabel.textContent='Tap again'; }
   });
+
+  // Attempt to autoplay the soundtrack on load. Browsers block audio with
+  // sound until the user interacts, so revert the UI if play() is refused.
+  track.volume=0.55;
+  sbtn.classList.add('playing'); sbtn.setAttribute('aria-pressed','true'); slabel.textContent='Pause music';
+  track.play().catch(()=>{ sbtn.classList.remove('playing'); sbtn.setAttribute('aria-pressed','false'); slabel.textContent='Play music'; });
 </script>
 </body>
 </html>
